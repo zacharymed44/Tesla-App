@@ -18,6 +18,7 @@ const Tezla = styled.h3`
     font-family: tezla; src: url('TESLA.ttf');
   }
   font-family: tezla;
+  color: white;
 `;
 
 const ToolBarContainer = styled.div`
@@ -32,7 +33,6 @@ const ToolBarContainer = styled.div`
   position: fixed;
   margin: 15px;
   margin-top: 15px;
-
 `;
 
 const TBLeft = styled.div`
@@ -62,21 +62,41 @@ const BtnApp = styled.button `
   margin-left: 5px;
   margin-right: 5px;
   color: white;
-
+  font-size: 20px;
+  font-weight: bold;
 `;
 
 class Headers extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      siteId: 0
+      siteId: ''
     }
     this.handleClick = this.handleClick.bind(this);
+    this.emptyState = this.emptyState.bind(this);
   }
 
   handleClick(e) {
     e.preventDefault();
+    if (this.state.siteId === '') {
+    this.setState({
+      siteId: e.target.name
+    }, ()=>{
+      this.props.changeView()
+    })
+    } else if (this.state.siteId !== e.target.name) {
+      this.setState({
+        siteId: e.target.name
+      }, () => {
+        console.log('new view');
+      })
+    }
+  }
 
+  emptyState(){
+    this.setState({
+      siteId: ''
+    })
   }
 
   render(){
@@ -84,16 +104,16 @@ class Headers extends React.Component {
       <div className="navbar">
         <ToolBarContainer>
           <TBLeft>
-            <Tezla>T E Z L A</Tezla>
+            <Tezla onClick={this.props.loadHomePage}>T E Z L A</Tezla>
           </TBLeft>
 
           <TBCenter>
-            <BtnApp name="tezlaS">Tezla S</BtnApp>
-            <BtnApp name="tezla3">Tezla 3</BtnApp>
-            <BtnApp name="tezlaX">Tezla X</BtnApp>
-            <BtnApp name="tezlaY">Tezla Y</BtnApp>
-            <BtnApp name="solarR">Solar Roof</BtnApp>
-            <BtnApp name="solarP">Solar Panels</BtnApp>
+            <BtnApp name="tezlaS" onClick={this.handleClick}>Tezla S</BtnApp>
+            <BtnApp name="tezla3" onClick={this.handleClick}>Tezla 3</BtnApp>
+            <BtnApp name="tezlaX" onClick={this.handleClick}>Tezla X</BtnApp>
+            <BtnApp name="tezlaY" onClick={this.handleClick}>Tezla Y</BtnApp>
+            <BtnApp name="solarR" onClick={this.handleClick}>Solar Roof</BtnApp>
+            <BtnApp name="solarP" onClick={this.handleClick}>Solar Panels</BtnApp>
           </TBCenter>
 
           <TBRight>
@@ -104,28 +124,28 @@ class Headers extends React.Component {
       </ToolBarContainer>
 
       <WebPage>
-        {this.state.siteId === 1 ? (
+        {this.state.siteId === 'tezlaS' ? (
           <TezlaS />
         ) : (null)}
 
-        {this.state.siteId === 2 ? (
+        {this.state.siteId === 'tezla3' ? (
           <Tezla3 />
         ) : (null)}
 
-        {this.state.siteId === 3 ? (
+        {this.state.siteId === 'teslaX' ? (
           <TezlaX />
         ) : (null)}
 
-        {this.state.siteId === 4 ? (
+        {this.state.siteId === 'teslaY' ? (
           <TezlaY />
         ) : (null)}
 
-        {this.state.siteId === 5 ? (
-          <SolarP />
+        {this.state.siteId === 'solarR' ? (
+          <SolarR />
         ) : (null)}
 
-        {this.state.siteId === 6 ? (
-          <SolarR />
+        {this.state.siteId === 'solarP' ? (
+          <SolarP />
         ) : (null)}
 
       </WebPage>
